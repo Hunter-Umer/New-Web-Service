@@ -89,6 +89,6 @@ Please choose an option:
   `);
 });
 
-// ✅ IMPORTANT: use dynamic port for Railway
+// Use dynamic port for Railway or local
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`✅ BeelStep Bot running on port ${PORT}`));
