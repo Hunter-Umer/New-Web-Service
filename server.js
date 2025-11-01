@@ -15,7 +15,7 @@ const products = [
   { name: "Polo Shirt", price: 2500, category: "Clothes" }
 ];
 
-// Urdu/English flags
+// Urdu/English language flags
 let userLang = {};
 
 app.post("/whatsapp", (req, res) => {
@@ -80,7 +80,7 @@ Please choose an option:
     reply = "Type `./beelstep` to open BeelStep menu.";
   }
 
-  // Return TwiML XML response
+  // Send TwiML XML response
   res.set("Content-Type", "text/xml");
   res.send(`
     <Response>
@@ -89,6 +89,6 @@ Please choose an option:
   `);
 });
 
-// Use dynamic port for Railway or local
+// ✅ Railway Dynamic Port
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`✅ BeelStep Bot running on port ${PORT}`));
