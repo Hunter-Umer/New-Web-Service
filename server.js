@@ -19,9 +19,11 @@ const products = [
 let userLang = {};
 
 app.post("/whatsapp", (req, res) => {
-  const from = req.body.From.replace("whatsapp:", "");
-  const msg = req.body.Body.trim().toLowerCase();
+  const from = req.body.From?.replace("whatsapp:", "") || "unknown";
+  const msg = req.body.Body?.trim().toLowerCase() || "";
   let reply = "";
+
+  console.log("📩 Message received from:", from, "Message:", msg);
 
   // Trigger command
   if (msg === "./beelstep") {
@@ -37,6 +39,7 @@ Please choose an option:
 
   // Language menu
   else if (msg === "6") {
+    userLang[from] = "pending";
     reply = `Select language:
 1️⃣ English  
 2️⃣ اردو`;
@@ -70,11 +73,6 @@ Please choose an option:
   } else if (msg === "2" && userLang[from] === "pending") {
     userLang[from] = "urdu";
     reply = "✅ زبان اردو پر سیٹ کر دی گئی ہے۔";
-
-  } else if (msg === "1️⃣ english" || msg === "1") {
-    userLang[from] = "english";
-  } else if (msg === "2️⃣ urdu" || msg === "2") {
-    userLang[from] = "urdu";
   }
 
   // Default fallback
@@ -82,7 +80,7 @@ Please choose an option:
     reply = "Type `./beelstep` to open BeelStep menu.";
   }
 
-  // Return TwiML response
+  // Return TwiML XML response
   res.set("Content-Type", "text/xml");
   res.send(`
     <Response>
@@ -91,4 +89,6 @@ Please choose an option:
   `);
 });
 
-app.listen(3000, () => console.log("✅ BeelStep Bot running on port 3000"));
+// ✅ IMPORTANT: use dynamic port for Railway
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`✅ BeelStep Bot running on port ${PORT}`));
